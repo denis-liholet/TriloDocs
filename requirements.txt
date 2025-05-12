@@ -1,0 +1,5 @@
+Flask
+Werkzeug
+mammoth
+beautifulsoup4
+lxml
