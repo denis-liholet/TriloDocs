@@ -6,8 +6,8 @@ with open("requirements.txt", "r", encoding="utf-8") as f:
 
 setup(
     name="TriloDocs",
-    version="0.1.0",
-    description="A Flask application for processing .docx tables",
+    version="1.0.0",
+    description="TriloDocs Table Processor app for processing .docx tables",
     author="Denys Lykholit",
     author_email="d.lykholit@gmail.com",
     packages=find_packages(),
