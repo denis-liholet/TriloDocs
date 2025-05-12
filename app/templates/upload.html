@@ -28,6 +28,9 @@
         font-family: 'Segoe UI', Tahoma, sans-serif;
         margin-bottom: 10px;
         text-decoration: none;
+        display: inline-block;
+        width: 200px;
+        text-align: center;
       }
       .custom-file-label:hover {
         background-color: #0056b3;
@@ -40,6 +43,9 @@
         border-radius: 4px;
         cursor: pointer;
         font-family: 'Segoe UI', Tahoma, sans-serif;
+        display: inline-block;
+        width: 200px;
+        text-align: center;
       }
       .custom-submit-button:hover {
         background-color: #1e7e34;
@@ -62,12 +68,47 @@
         </ul>
       {% endif %}
     {% endwith %}
+    <div id="errorMsg" style="display:none;color:red;font-family:'Segoe UI', Tahoma, sans-serif;margin-bottom:10px;text-align:center;"></div>
+    <div id="selectedFileName" style="display:none; font-family:'Segoe UI', Tahoma, sans-serif; margin-bottom:10px; text-align:center;"></div>
     <form method="post" enctype="multipart/form-data">
       <div class="upload-container">
         <label for="fileInput" class="custom-file-label">Choose File</label>
         <input type="file" id="fileInput" name="file" accept=".docx" class="custom-file-input" required>
-        <button type="submit" class="custom-submit-button">Upload & Process</button>
+        <button type="submit" id="submitBtn" class="custom-submit-button">Process</button>
       </div>
     </form>
-  </body>
+</body>
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        var form = document.querySelector('form');
+        var fileInput = document.getElementById('fileInput');
+        var errorDiv = document.getElementById('errorMsg');
+        var selectedFileName = document.getElementById('selectedFileName');
+        var submitBtn = document.getElementById('submitBtn');
+        // Button disabled until a file is selected
+        submitBtn.disabled = true;
+        fileInput.addEventListener('change', function() {
+          if (fileInput.files.length > 0) {
+            var name = fileInput.files[0].name;
+            selectedFileName.textContent = 'Selected file: ' + name;
+            selectedFileName.style.display = 'block';
+            submitBtn.disabled = false;
+            errorDiv.style.display = 'none';
+          } else {
+            selectedFileName.textContent = '';
+            selectedFileName.style.display = 'none';
+            submitBtn.disabled = true;
+          }
+        });
+        form.addEventListener('submit', function(e) {
+          if (!fileInput.value) {
+            e.preventDefault();
+            errorDiv.textContent = 'Please choose a file before processing.';
+            errorDiv.style.display = 'block';
+          } else {
+            errorDiv.style.display = 'none';
+          }
+        });
+      });
+    </script>
 </html>

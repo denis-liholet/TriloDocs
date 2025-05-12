@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Thank You</title>
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}">
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        color: #333;
+        margin: 0;
+      }
+      img {
+        max-width: 200px;
+        margin-bottom: 20px;
+      }
+      h2 {
+        font-size: 1.5em;
+        margin-bottom: 30px;
+      }
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .button {
+        text-align: center;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 1em;
+        color: #fff;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+      }
+      .download-btn {
+        background-color: #28a745;
+      }
+      .download-btn:hover {
+        background-color: #1e7e34;
+      }
+      .upload-btn {
+        background-color: #007BFF;
+      }
+      .upload-btn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Company Logo">
+    <h2>Thank you for using TriloDocs!</h2>
+    <p style="font-size:1.2em; margin-bottom:20px;">
+      Your file <strong>{{ original_filename }}</strong> has been processed.
+    </p>
+    <div class="button-container">
+      <a id="download-link" href="{{ url_for('main.download_file', filename=filename) }}" download class="button download-btn">
+        Download Results
+      </a>
+      <a href="{{ url_for('main.upload_and_process') }}" class="button upload-btn">
+        Upload Another File
+      </a>
+    </div>
+</body>
+    <script>
+      window.addEventListener('load', function() {
+        const downloadLink = document.getElementById('download-link');
+        if (downloadLink) {
+          downloadLink.click();
+        }
+      });
+    </script>
+</html>
