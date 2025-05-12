@@ -1,7 +1,6 @@
 import os
 import json
 import tempfile
-from io import BytesIO
 from flask import (Blueprint, render_template, request, redirect, url_for, send_file,
                    flash, current_app)
 from werkzeug.utils import secure_filename
@@ -63,7 +62,11 @@ def upload_and_process():
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump(results, f, ensure_ascii=False, indent=2)
         # Redirect to thank-you page, passing the filename and original filename
-        return redirect(url_for("main.thank_you", filename=download_name, original_filename=filename))
+        return redirect(
+            url_for("main.thank_you",
+                    filename=download_name,
+                    original_filename=filename)
+        )
 
     return render_template('upload.html')
 
@@ -90,10 +93,12 @@ def thank_you(filename):
 
     Args:
         filename (str): The name of the processed JSON file.
-        original_filename (str): The original uploaded filename.
 
     Returns:
         Flask Response: The rendered thank-you template.
     """
     original_filename = request.args.get('original_filename', filename)
-    return render_template('thank_you.html', filename=filename, original_filename=original_filename)
+    return render_template(
+        'thank_you.html',
+        filename=filename,
+        original_filename=original_filename)
