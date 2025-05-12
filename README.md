@@ -45,7 +45,7 @@ Start the Flask development server:
 python run.py
 ```
 
-By default, the app runs at [http://127.0.0.1:5000/upload](http://127.0.0.1:5000/upload).
+By default, the app runs at [http://127.0.0.1:5000/](http://127.0.0.1:5000/).
 
 ## Usage
 
