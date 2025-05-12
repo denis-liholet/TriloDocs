@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Upload report</title>
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}">
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .upload-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+      }
+      .custom-file-input {
+        display: none;
+      }
+      .custom-file-label {
+        background-color: #007BFF;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        margin-bottom: 10px;
+        text-decoration: none;
+        display: inline-block;
+        width: 200px;
+        text-align: center;
+      }
+      .custom-file-label:hover {
+        background-color: #0056b3;
+      }
+      .custom-submit-button {
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        display: inline-block;
+        width: 200px;
+        text-align: center;
+      }
+      .custom-submit-button:hover {
+        background-color: #1e7e34;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align:center; margin:20px 0;">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Company Logo" style="max-width:200px;">
+    </div>
+    <h1 style="font-size:1.5em; font-family:'Segoe UI', Tahoma, sans-serif; color:#333;">
+      Welcome! Please upload your .docx file below.
+    </h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul style="color:red;">
+          {% for msg in messages %}
+            <li>{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <div id="errorMsg" style="display:none;color:red;font-family:'Segoe UI', Tahoma, sans-serif;margin-bottom:10px;text-align:center;"></div>
+    <div id="selectedFileName" style="display:none; font-family:'Segoe UI', Tahoma, sans-serif; margin-bottom:10px; text-align:center;"></div>
+    <form method="post" enctype="multipart/form-data">
+      <div class="upload-container">
+        <label for="fileInput" class="custom-file-label">Choose File</label>
+        <input type="file" id="fileInput" name="file" accept=".docx" class="custom-file-input" required>
+        <button type="submit" id="submitBtn" class="custom-submit-button">Process</button>
+      </div>
+    </form>
+</body>
+    <script>
+      window.addEventListener('DOMContentLoaded', function() {
+        var form = document.querySelector('form');
+        var fileInput = document.getElementById('fileInput');
+        var errorDiv = document.getElementById('errorMsg');
+        var selectedFileName = document.getElementById('selectedFileName');
+        var submitBtn = document.getElementById('submitBtn');
+        // Button disabled until a file is selected
+        submitBtn.disabled = true;
+        fileInput.addEventListener('change', function() {
+          if (fileInput.files.length > 0) {
+            var name = fileInput.files[0].name;
+            selectedFileName.textContent = 'Selected file: ' + name;
+            selectedFileName.style.display = 'block';
+            submitBtn.disabled = false;
+            errorDiv.style.display = 'none';
+          } else {
+            selectedFileName.textContent = '';
+            selectedFileName.style.display = 'none';
+            submitBtn.disabled = true;
+          }
+        });
+        form.addEventListener('submit', function(e) {
+          if (!fileInput.value) {
+            e.preventDefault();
+            errorDiv.textContent = 'Please choose a file before processing.';
+            errorDiv.style.display = 'block';
+          } else {
+            errorDiv.style.display = 'none';
+          }
+        });
+      });
+    </script>
+</html>
